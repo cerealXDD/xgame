@@ -91,6 +91,7 @@ def score(row, column):
 	if(game_array_val(row, column) + game_array_val(row, column+1) + game_array_val(row, column+2) == 'XXX'):
 		score_tmp += 1
 	players[player_idx][1] = players[player_idx][1] + score_tmp
+	return score_tmp
 
 
 def game_array_val(row, column):
@@ -130,25 +131,29 @@ while(True):
 		if(not move_error):
 			try:
 				user_input[1] = int(user_input[1])
-				if(user_input[1] < 0 or user_input[1] >= rows):
+				if(user_input[1] < 1 or user_input[1] > rows):
 					raise ValueError()
+				user_input[1] = user_input[1] - 1
 			except ValueError:
-				print(f"enter row between 0 and {rows-1}")
+				print(f"enter row between 1 and {rows}")
 				move_error = True
 			try:
 				user_input[2] = int(user_input[2])
-				if(user_input[2] < 0 or user_input[2] >= columns):
+				if(user_input[2] < 1 or user_input[2] > columns):
 					raise ValueError()
+				user_input[2] = user_input[2] - 1
 			except ValueError:
-				print(f"enter column between 0 and {columns-1}")
+				print(f"enter column between 1 and {columns}")
 				move_error = True
 		if(not move_error):
 			if(game_array[user_input[1]][user_input[2]] == 'X'):
-				print(f"row {user_input[1]} and column {user_input[2]} is taken already")
+				print(f"row {user_input[1] + 1} and column {user_input[2] + 1} is taken already")
 				move_error = True
 		if(not move_error):
 			game_array[user_input[1]][user_input[2]] = 'X'
-			score(user_input[1], user_input[2])
+			move_score = score(user_input[1], user_input[2])
+			if move_score > 0:
+				print(f"+{move_score} for {players[player_idx][0]}")
 			player_idx = (player_idx + 1) % num_players
 			moves = moves + 1
 	elif(user_input[0] == '?' or user_input[0] == 'h' or user_input[0] == 'help'):
