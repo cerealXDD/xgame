@@ -43,8 +43,18 @@ game_array = [['O' for _ in range(columns)] for _ in range(rows)]
 
 # Print the initialized 2D array
 def print_game_array():
-	for row in game_array:
-		print(row)
+	board_str = ' '*(len(str(rows)) + len(str(columns)))
+	for idx in range(1, columns):
+		board_str = board_str + f"{idx}" + ' '*(len(str(columns)) - len(str(idx+1)) + 1)
+	board_str += f"{columns}\n"
+	for row in range(1, rows + 1):
+		for column in range(0, columns + 1):
+			if(column == 0):
+				board_str = board_str + ' '*(len(str(rows)) - len(str(row))) + str(row) + ' '*(len(str(columns)))
+			else:
+				board_str = board_str + game_array[row-1][column-1] + ' '*(len(str(columns)))
+		board_str += "\n"
+	print(board_str[:-1])
 
 def move(row, column):
 	game_array[row][column] = 'X'
@@ -115,13 +125,30 @@ while(True):
 	if(len(user_input) == 0):
 		pass
 	elif(user_input[0] == 'p'):
-		for idx,player in enumerate(players):
-			player_str = player[0] + ' ' + str(player[1])
-			if(player_idx == idx):
-				player_str = player_str + ' (Your Turn)'
-			print(player_str)
+		if(len(user_input) == 1):
+			for idx,player in enumerate(players):
+				player_str = player[0] + ' ' + str(player[1])
+				if(player_idx == idx):
+					player_str = player_str + ' (Your Turn)'
+				print(player_str)
+		elif(len(user_input) == 2):
+			player_str = ''
+			for idx,player in enumerate(players):
+				if(player[0] == user_input[1]):
+					player_str = player[0] + ' ' + str(player[1])
+					if(player_idx == idx):
+						player_str = player_str + ' (Your Turn)'
+					print(player_str)
+					break
+			if(player_str == ''):
+				print(f"{user_input[1]} not a player")
+		else:
+			print("p takes 0 or 1 args")
 	elif(user_input[0] == 'b'):
-		print_game_array()
+		if(len(user_input) == 1):
+			print_game_array()
+		else:
+			print("b takes 0 args")
 	elif(user_input[0] == 'm'):
 		move_error = False
 		if(not move_error):
@@ -157,7 +184,10 @@ while(True):
 			player_idx = (player_idx + 1) % num_players
 			moves = moves + 1
 	elif(user_input[0] == '?' or user_input[0] == 'h' or user_input[0] == 'help'):
-		print(f"?/h/help - prints help\nb - prints board\np - prints player info\nm <row> <column> - puts x")
+		if(len(user_input) == 1):
+			print(f"?/h/help - prints help\nb - prints board\np/p <name> - prints player info\nm <row> <column> - puts x")
+		else:
+			print("help takes 0 args")
 	else:
 		print("not a command")
 
