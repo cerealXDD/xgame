@@ -35,11 +35,15 @@ try:
 	for i in range(0, num_players):
 		while(True):
 			player_name = input(f"Enter name for player {i+1}: ")
-			if(' ' not in player_name):
-				break
-			else:
+			if(' ' in player_name):
 				print("Please enter name without spaces")
-		players.append([player_name, 0])
+			elif(player_name == ""):
+				print("cant have empty player name")
+			elif(any(player_name in sublist for sublist in players)):
+				print("cant have duplicate player name")
+			else:
+				players.append([player_name, 0])
+				break
 	
 	game_array = [['.' for _ in range(columns)] for _ in range(rows)]
 	
@@ -191,7 +195,10 @@ try:
 			else:
 				print("help takes 0 args")
 		elif(user_input[0] == 'q' or user_input[0] == 'quit' or user_input[0] == 'exit'):
-			sys.exit(0)
+			if(len(user_input) == 1):
+				sys.exit(0)
+			else:
+				print("quit takes 0 args")
 		else:
 			print("not a command")
 except KeyboardInterrupt:
