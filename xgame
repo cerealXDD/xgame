@@ -3,7 +3,7 @@ import sys
 try:
 	while(True):
 		try:
-			rows = int(input("Enter rows: "))
+			rows = int(input("xgame> Enter rows: "))
 			if(rows <= 2):
 				raise ValueError()
 			break
@@ -13,7 +13,7 @@ try:
 	
 	while(True):
 		try:
-			columns = int(input("Enter columns: "))
+			columns = int(input("xgame> Enter columns: "))
 			if(columns <= 2):
 				raise ValueError()
 			break
@@ -23,7 +23,7 @@ try:
 	
 	while(True):
 		try:
-			num_players = int(input("Enter number of players: "))
+			num_players = int(input("xgame> Enter number of players: "))
 			if(num_players < 1):
 				raise ValueError()
 			break
@@ -34,7 +34,7 @@ try:
 	players = []
 	for i in range(0, num_players):
 		while(True):
-			player_name = input(f"Enter name for player {i+1}: ")
+			player_name = input(f"xgame> Enter name for player {i+1}: ")
 			if(' ' in player_name):
 				print("Please enter name without spaces")
 			elif(player_name == ""):
